@@ -1,5 +1,5 @@
 % Initial Robot State
-robot.x = 297.49 + robot.length/2;
+robot.x = fieldLine + robot.length/2; % behind the starting line
 robot.y = 158.5;
 robot.theta = 180; % 180 degrees (facing left)
 
