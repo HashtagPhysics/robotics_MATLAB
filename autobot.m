@@ -1,13 +1,21 @@
 
 resetRobot
 
+% Start recorder
+%recorder('start')
+
 % Change to decrease erorr when turning
-driftOffset = -2.25;
+%driftOffset = -2.25;
+driftOffset = 0;
 
 driveSpeed = 1;
 turnSpeed = 0.75;
 startTime = 0;
+<<<<<<< Updated upstream
 startPos = "center_L";
+=======
+startPos = "center";
+>>>>>>> Stashed changes
 
 switch startPos
     case "center_R"
@@ -87,3 +95,6 @@ switch startPos
         % Drop New Coral
         
 end
+
+% Stop recorder
+recorder('stop')

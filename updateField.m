@@ -1,4 +1,8 @@
 function robot = updateField(robot)
+
+    % Sample frame for video
+    recorder('sample')
+
     % Update the plot with the robot's current state.
     robot.robotPatch.XData = robot.cornerPositions(1, :);
     robot.robotPatch.YData = robot.cornerPositions(2, :);

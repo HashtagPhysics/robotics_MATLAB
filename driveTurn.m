@@ -1,4 +1,4 @@
-function [robot, endTime] = driveTurn(robot, angle_deg, motorSpeed_M, startTime)
+function [robot, endTime, error] = driveTurn(robot, angle_command, motorSpeed_M, startTime)
     % Drive straight for a number of inches.
     % To go backwards, enter a negative distance.
 
@@ -6,6 +6,9 @@ function [robot, endTime] = driveTurn(robot, angle_deg, motorSpeed_M, startTime)
     
     % Set robot track width in inches
     trackwidth = robot.trackWidth;
+    
+    % Get start angle for error calc
+    startAngle = robot.theta;
     
     accel_in_s2 = 200; % Acceleration/deceleration rate (inches/s²)
 
@@ -17,12 +20,15 @@ function [robot, endTime] = driveTurn(robot, angle_deg, motorSpeed_M, startTime)
 
     % Convert negative distance to direction
     rightturn = true;
-    if angle_deg < 0
-        rightturn = false;
-        angle_deg = abs(angle_deg);
+    if angle_command < 0
+        rightturn = false;        
     end
+    angle = abs(angle_command);
 
-    arclength_in = (trackwidth * pi * angle_deg) / 360.0;
+    arclength = (trackwidth * pi * angle) / 360.0;
+    
+    % Distance fudge factor
+    %arclength = arclength + 1.65 * motorSpeed_M;
     
     % Convert motor speed command to inches per second
     v_command_ips = k_MotorSpeed() * motorSpeed_M;
@@ -31,7 +37,7 @@ function [robot, endTime] = driveTurn(robot, angle_deg, motorSpeed_M, startTime)
     M_step = (accel_in_s2 * looptime) / k_MotorSpeed();
 
     % Maximum velocity that can be achieved in the distance given
-    v_max_ips = sqrt(accel_in_s2 * arclength_in);
+    v_max_ips = sqrt(accel_in_s2 * arclength);
     v_arb_command_ips = min(v_command_ips, v_max_ips);
     arb_MotorSpeed_M = v_arb_command_ips / k_MotorSpeed();
 
@@ -44,7 +50,7 @@ function [robot, endTime] = driveTurn(robot, angle_deg, motorSpeed_M, startTime)
     t_accel_s = v_arb_command_ips / accel_in_s2;
 
     % Calculate total time
-    t_total_s = arclength_in / v_arb_command_ips + v_arb_command_ips / accel_in_s2;
+    t_total_s = arclength / v_arb_command_ips + v_arb_command_ips / accel_in_s2;
 
     % Initialize drive timer
     driveTime = 0;
@@ -67,6 +73,9 @@ function [robot, endTime] = driveTurn(robot, angle_deg, motorSpeed_M, startTime)
             motorCommand = arb_MotorSpeed_M;
         end
 
+        % Clip motor command between 0 and 1;
+        motorCommand = max(min(motorCommand,1),0);
+        
         % Set the motor speed
         if rightturn
             % turn right
@@ -99,6 +108,11 @@ function [robot, endTime] = driveTurn(robot, angle_deg, motorSpeed_M, startTime)
     %Update time one last time.
     robot.simTimeText.String = sprintf('SimTime = %.3f seconds', simTime);
     endTime = startTime + driveTime;
+    
+    % Calculate error
+    endAngle = robot.theta;
+    error = (startAngle - endAngle) - angle_command;
+    
 end
 
 
