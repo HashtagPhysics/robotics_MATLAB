@@ -28,7 +28,7 @@ function [robot, endTime, error] = driveTurn(robot, angle_command, motorSpeed_M,
     arclength = (trackwidth * pi * angle) / 360.0;
     
     % Distance fudge factor
-    %arclength = arclength + 1.65 * motorSpeed_M;
+    arclength = arclength + 1.65 * motorSpeed_M;
     
     % Convert motor speed command to inches per second
     v_command_ips = k_MotorSpeed() * motorSpeed_M;

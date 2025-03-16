@@ -24,7 +24,7 @@ function [robot, endTime, error] = driveStraight(robot, distance_command, motorS
     distance = abs(distance_command);
 
     % Distance fudge factor
-    %distance = distance + 1.65 * motorSpeed_M;
+    distance = distance + 1.65 * motorSpeed_M;
         
     % Convert motor speed command to inches per second
     v_command_ips = k_MotorSpeed() * motorSpeed_M;
