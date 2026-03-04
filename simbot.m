@@ -25,6 +25,11 @@ robot.trackWidth = 21.5;
 robot.length = 26.3 + 2*bumper;
 robot.width = 26.5 + 2*bumper;
 
+% Robot capabilities
+robot.targetDist = 65; % Set your desired distance behind robot center
+robot.targetLength = 48.4;
+robot.targetWidth = 24;
+
 % Initialize the robot position and state
 resetRobot
 
@@ -67,10 +72,7 @@ if ~plot_open
     
     % plot the hub
     plothub
-    
-%     % Draw the algae
-%     drawCircle(algaeX, algaeY, algaeD, algaeColor)
-    
+
     % Create robot patch and store handle
     robot.robotPatch = patch(robot.cornerPositions(1, :), robot.cornerPositions(2, :), 'c');
     robot.robotPatch.EdgeColor = 'b';
@@ -81,7 +83,27 @@ if ~plot_open
     robot.leftWheelPlot = plot(robot.leftWheelX, robot.leftWheelY, 'm.', 'MarkerSize', 30); % Magenta left wheel
     robot.rightWheelPlot = plot(robot.rightWheelX, robot.rightWheelY, 'r.', 'MarkerSize', 30); % Red right wheel
 
-    
+    % Define the ellipse template (unit circle with 30 points)
+    t = linspace(0, 2*pi, 30);
+    % robot.targetWidth is 6, robot.targetLength is 12
+    baseX = (robot.targetLength/2) * cos(t); 
+    baseY = (robot.targetWidth/2) * sin(t);
+    robot.targetTemplate = [baseX; baseY]; 
+
+    % Calculate initial position and rotation
+    angleRad = deg2rad(robot.theta); % Initial theta is 180
+    rotM = [cos(angleRad), -sin(angleRad); sin(angleRad), cos(angleRad)];
+
+    % Calculate center (targetDist is 70)
+    initTargetX = robot.x - robot.targetDist * cos(angleRad);
+    initTargetY = robot.y - robot.targetDist * sin(angleRad);
+
+    % Transform template to initial world coordinates
+    initPoints = rotM * robot.targetTemplate + [initTargetX; initTargetY];
+
+    % Create the Patch instead of a Rectangle
+    robot.targetPatch = patch(initPoints(1,:), initPoints(2,:), 'r', ...
+        'FaceAlpha', 0.3, 'EdgeColor', [1 0 0], 'LineWidth', 1.0);
 
     % Add Simulation time
     robot.simTimeText = text(162, 10, 'SimTime = 0.000 s', 'FontSize', 12);

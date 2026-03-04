@@ -9,7 +9,7 @@ driveSpeed = 0.75;
 turnSpeed = 0.75;
 startTime = 0;
 
-startPos = "left";
+startPos = "center";
 
 switch startPos
     case "center"
