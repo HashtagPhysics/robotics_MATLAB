@@ -1,8 +1,8 @@
-% Reef Parameters (inches)
-reefCenterX = 176.745;
-reefCenterY = 158.5;
-reefSideLength = 37.82;
-reefRotationDegrees = 30;
+% Hub Parameters (inches)
+reefCenterX = 181.56;
+reefCenterY = 158.32;
+reefSideLength = 23.5;
+reefRotationDegrees = 0;
 reefRotationRadians = deg2rad(reefRotationDegrees);
 
 % Calculate Hexagon Vertices (Unrotated)

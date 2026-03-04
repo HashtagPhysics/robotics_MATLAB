@@ -90,7 +90,7 @@ function [robot, endTime, error] = driveStraight(robot, distance_command, motorS
         updateField(robot);
         
         % Update simulation time text
-        robot.simTimeText.String = sprintf('SimTime = %.3f seconds', simTime);
+        robot.simTimeText.String = sprintf('SimTime = %.3f s', simTime);
         
         pause(looptime); % Simulate loop time
     end

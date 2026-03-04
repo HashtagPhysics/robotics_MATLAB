@@ -94,7 +94,7 @@ function [robot, endTime, error] = driveTurn(robot, angle_command, motorSpeed_M,
         updateField(robot);
         
         % Update simulation time text
-        robot.simTimeText.String = sprintf('SimTime = %.3f seconds', simTime);
+        robot.simTimeText.String = sprintf('SimTime = %.3f s', simTime);
         
         pause(looptime); % Simulate loop time
     end

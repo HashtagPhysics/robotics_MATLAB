@@ -1,6 +1,6 @@
 % Initial Robot State
-robot.x = fieldLine + robot.length/2; % behind the starting line
-robot.y = 158.5;
+robot.x = fieldLine - robot.length/2; % in front of the starting line
+robot.y = 158.32;
 robot.theta = 180; % 180 degrees (facing left)
 
 % Calculate initial wheel positions (inches)
@@ -32,7 +32,7 @@ robot.cornerPositions = rotatedOffsets + [robot.x; robot.y];
 simTime = 0;
 try 
     if ishghandle(fieldPlot)
-        robot.simTimeText.String = sprintf('SimTime = %.3f seconds', simTime);
+        robot.simTimeText.String = sprintf('SimTime = %.3f s', simTime);
     end
 end
 
