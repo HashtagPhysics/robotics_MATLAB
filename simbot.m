@@ -26,8 +26,8 @@ robot.length = 26.3 + 2*bumper;
 robot.width = 26.5 + 2*bumper;
 
 % Robot capabilities
-robot.targetDist = 65; % Set your desired distance behind robot center
-robot.targetLength = 48.4;
+robot.targetDist = robot.length/2 + 70; % Set your desired distance behind robot center
+robot.targetLength = 72.33;
 robot.targetWidth = 24;
 
 % Initialize the robot position and state
